@@ -3,13 +3,23 @@
 
 <xacro:include filename="$(find person_follower_sim)/urdf/materials.xacro" />
 <xacro:include filename="$(find person_follower_sim)/urdf/mr_robot.trans" />
-<xacro:include filename="$(find person_follower_sim)/gazebo/mr_robot.gazebo" />
-<xacro:include filename="$(find person_follower_sim)/gazebo/mr_robot_plugins.gazebo" />
+<xacro:include filename="$(find person_follower_sim)/urdf/mr_robot.gazebo" />
+<!-- <xacro:include filename="$(find person_follower_sim)/gazebo/mr_robot_plugins.gazebo" /> -->
 
 <xacro:arg      name="kinect_enabled"             default="true" />
 <xacro:arg      name="lidar_enabled"              default="true" />
 <xacro:arg      name="camera_enabled"             default="true" />
 
+
+<link name="imu_link">
+
+  <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+        <box size="0.02 0.015 0.008"/>
+      </geometry>
+    </visual>   
+</link>
 
 <link name="base_link" gravity="0 0 -9.8">
   <inertial>
@@ -53,6 +63,13 @@
   </collision>
 </link>
 
+<joint name="imu_joint" type="fixed">
+  <origin xyz="0 0 0.18" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="imu_link"/>
+  <axis xyz="0 0 0" />
+</joint>  
+
 <link name="l_tyre_1">
   <inertial>
     <origin rpy="0 0 0" xyz="9.682664276963737e-08 0.0025262758714060807 -5.18946233832307e-08"/>
@@ -74,7 +91,6 @@
   </collision>
 </link>
 
-<xacro:if value="$(arg lidar_enabled)">
 <link name="lidar_1">
   <inertial>
     <origin rpy="0 0 0" xyz="-0.006349391522619652 0.0008793633835904074 -0.002389798737942095"/>
@@ -95,12 +111,12 @@
     </geometry>
   </collision>
 </link>
+
 <joint name="lidar_fixed" type="fixed">
   <origin rpy="0 0 0" xyz="0.0967 -0.001759 0.108682"/>
   <parent link="base_link"/>
   <child link="lidar_1"/>
 </joint>
-</xacro:if>
 
 <xacro:if value="$(arg kinect_enabled)">
 	<link name="kinect_camera">
@@ -113,7 +129,7 @@
 		<visual>
 			<origin xyz="0 0 0" rpy="0 0 0" />
 		<geometry>
-		<mesh filename="file://$(find person_follower_sim)/meshes/kinect/d415.dae"/>
+		<mesh filename="package://$(find person_follower_sim)/meshes/kinect/d415.dae"/>
 		</geometry>
 		<material name="black"/>
 		</visual>
@@ -130,7 +146,6 @@
 	</joint>
 </xacro:if>
 
-<xacro:if value="$(arg camera_enabled)">
   <link name="camera_link">
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -157,9 +172,6 @@
    <parent link="base_link"/>
    <child link="camera_link"/>
   </joint>
-
-</xacro:if>
-
 
 <joint name="right_motor_joint" type="continuous">
   <origin rpy="0 0 0" xyz="-0.003445 -0.10058 0.052283"/>

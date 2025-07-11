@@ -246,13 +246,13 @@ def generate_launch_description():
 
     )
 
-      # parameter bridge node to bridge different gz and tos 2 topics
-    ros_gz_bridge = Node(package="ros_gz_bridge", 
-                executable="parameter_bridge",
-                parameters = [
-                    {'config_file': bridge_config}],
-                # condition=IfCondition(with_bridge)
-                )
+    #   # parameter bridge node to bridge different gz and tos 2 topics
+    # ros_gz_bridge = Node(package="ros_gz_bridge", 
+    #             executable="parameter_bridge",
+    #             parameters = [
+    #                 {'config_file': bridge_config}],
+    #             # condition=IfCondition(with_bridge)
+    #             )
     
     # # launch rviz node if rviz parameter was set to true
     # rviz = Node(package='rviz2',
@@ -275,13 +275,7 @@ def generate_launch_description():
         world,
         robot_spawn,
         robot_state,
-        ros_gz_bridge,
+        # ros_gz_bridge,
         # rviz,
         arg_use_sim_time,
     ])
-
-
-
-
-
-

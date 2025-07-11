@@ -1,5 +1,6 @@
 <?xml version='1.0'?>
 <sdf version='1.7'>
+
   <model name='model'>
     <pose>-0.181031 -0.054427 0 0 -0 0</pose>
     <link name='Wall_0'>
@@ -148,5 +149,6 @@
       <pose>-10.05 7.55 0 0 -0 -1.5708</pose>
     </link>
     <static>1</static>
-  </model>
+    </model>
+
 </sdf>

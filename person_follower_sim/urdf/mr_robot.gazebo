@@ -1,0 +1,189 @@
+<?xml version="1.0" ?>
+<robot name="mr_robot" xmlns:xacro="http://www.ros.org/wiki/xacro" >
+
+<xacro:property name="body_color" value="Gazebo/Silver" />
+<xacro:property name="camera_color" value="Gazebo/Red" />
+<xacro:property name="wheel_color" value="Gazebo/Black" />
+<xacro:property name="lidar_color" value="Gazebo/Blue" />
+<xacro:property name="base_color" value="Gazebo/Yellow" />
+<xacro:property name="depth_camera_color" value="Gazebo/dark_blue" />
+
+
+<gazebo reference="base_link">
+  <material>${body_color}</material>
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
+  <selfCollide>true</selfCollide>
+  <gravity>true</gravity>
+</gazebo>
+
+<gazebo reference="r_tyre_1">
+  <material>${wheel_color}</material>
+  <mu1>1500</mu1>
+  <mu2>1500</mu2>
+  <selfCollide>true</selfCollide>
+</gazebo>
+
+<gazebo reference="l_tyre_1">
+  <material>${wheel_color}</material>
+  <mu1>1500</mu1>
+  <mu2>1500</mu2>
+  <selfCollide>true</selfCollide>
+</gazebo>
+
+<gazebo reference="lidar_1">
+  <material>${lidar_color}</material>
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
+  <selfCollide>true</selfCollide>
+</gazebo>
+
+<gazebo reference="camera_link">
+  <material>${camera_color}</material>
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
+  <selfCollide>true</selfCollide>
+</gazebo>
+
+<gazebo reference="kinect_camera">
+  <material>${depth_camera_color}</material>
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
+  <selfCollide>true</selfCollide>
+</gazebo>
+
+<gazebo>
+        <static>false</static>
+</gazebo>
+
+<gazebo reference="imu_plugin">
+  <plugin filename="gz-sim-imu-Imu">
+  </plugin>
+</gazebo>
+
+<gazebo reference="imu_link">
+  <sensor name="imu_sensor" type="imu">
+    <always_on>true</always_on>
+    <update_rate>100</update_rate>
+    <visualize>true</visualize>
+    <topic>imu</topic>
+  </sensor>
+</gazebo>   
+
+
+<gazebo reference="differential_drive"> 
+  <!-- Differential Drive Plugin -->
+    <plugin filename="gz-sim-diff-drive-system" name="gz::sim::systems::DiffDrive">
+      <left_joint>left_motor_joint</left_joint>
+      <right_joint>right_motor_joint</right_joint>
+      <wheel_separation>0.199</wheel_separation>
+      <wheel_radius>0.0535</wheel_radius>
+      <odom_publish_frequency>1</odom_publish_frequency>
+      <robot_base_frame>base_link</robot_base_frame>
+      <topic>cmd_vel</topic>
+       <max_wheel_acceleration>5.0</max_wheel_acceleration>
+    </plugin>
+</gazebo>
+
+<gazebo reference="odometery">
+        <!-- Odometry Publisher -->
+    <plugin name="gz::sim::systems::OdometryPublisher" filename="gz-sim-odometry-publisher-system">
+      <odom_topic>odom</odom_topic>
+      <odom_frame>odom</odom_frame>
+      <robot_base_frame>base_link</robot_base_frame>
+      <publish_tf>true</publish_tf>
+      <tf_topic>tf</tf_topic>
+    </plugin>
+</gazebo>
+
+<gazebo reference="joint_state_publisher">
+    <!-- Joint State Publisher -->
+    <plugin filename="gz-sim-joint-state-publisher-system" name="gz::sim::systems::JointStatePublisher">
+      <topic>joint_states</topic>
+    </plugin>
+</gazebo>
+
+<gazebo reference="lidar_1">
+     <sensor name='gpu_lidar' type='gpu_lidar'>
+    <pose relative_to='mr_robot/base_link/gpu_lidar'>0.001 0.006 0.1155 0 0 0</pose>
+    <topic>/laser/scan</topic>
+    <update_rate>10</update_rate>
+    <lidar>
+        <scan>
+            <horizontal>
+                <samples>360</samples>
+                <resolution>1</resolution>
+                <min_angle>-3.14</min_angle>
+                <max_angle>3.14</max_angle>
+            </horizontal>
+            <vertical>
+                <samples>1</samples>
+                <resolution>0.01</resolution>
+                <min_angle>0</min_angle>
+                <max_angle>0</max_angle>
+            </vertical>
+        </scan>
+        <range>
+            <min>0.01</min>
+            <max>10.0</max>
+            <resolution>0.01</resolution>
+        </range>
+    </lidar>
+    <topic>scan</topic>
+    <gz_frame_id>laser_frame</gz_frame_id>
+    <always_on>true</always_on>
+    <visualize>true</visualize>
+  </sensor>
+</gazebo>
+
+<gazebo reference="camera_link">
+  <plugin filename="gz-harmonic-camera-system" name="gz::harmonic::systems::CameraSystem"/>
+    <sensor type="camera" name="camera">
+      <visualize>true</visualize>
+      <always_on>true</always_on>
+      <update_rate>10.0</update_rate>
+      <camera name="head">
+        <!-- <camera_info_topic>camera/camera_info</camera_info_topic> -->
+        <horizontal_fov>1.3962634</horizontal_fov>  <!-- 80 degrees-->
+        <image>
+          <width>800</width>
+          <height>800</height>
+          <format>R8G8B8</format>   <!-- RGB WITH 8 BITS PER CHANNEL-->
+        </image>
+        <clip>
+          <near>0.02</near>
+          <far>300</far>
+        </clip>
+      </camera>
+      <topic>camera/image_raw</topic>
+      <gz_frame_id>camera_link_optical</gz_frame_id>
+    </sensor>
+</gazebo>
+
+
+<gazebo reference="kinect_camera">
+  <plugin filename="gz-sim-depth-camera-system" name="gz::sim::systems::DepthCamera"/>
+   <sensor type="depth_camera" name="kinect_camera">
+        <visualize>true</visualize>
+        <always_on>true</always_on>
+        <enable_metrics>true</enable_metrics>
+        <update_rate>10</update_rate>
+        <camera name = "Deep">
+          <camera_info_topic>depth_camera/depth_camera_info</camera_info_topic>
+          <horizontal_fov>1.3962634</horizontal_fov>
+          <image>
+            <width>800</width>
+            <height>800</height>
+            <format>R_FLOAT32</format>
+          </image>
+          <clip>
+            <near>0.02</near>
+            <far>300</far>
+          </clip>
+        </camera>
+        <topic>depth_camera</topic>
+        <gz_frame_id>camera_link_optical</gz_frame_id>
+      </sensor>
+</gazebo>  
+
+</robot>

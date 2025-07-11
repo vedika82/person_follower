@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<!-- <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="mr_robot">
 
     <gazebo>
@@ -8,7 +8,7 @@
     <!-- .....................MULTI WHEEL DIFF DRIVE ................................... -->
 
     <gazebo>
-         <plugin filename="gz-sim-diff-drive-system" name="gz::sim::systems::DiffDrive">
+        <plugin name="diff_drive" filename="libgazebo_ros_diff_drive.so">
             <ros>
                 <remapping>cmd_vel:=cmd_vel</remapping>
                 <remapping>odom:=odom</remapping>
@@ -49,7 +49,8 @@
                         <far>100.0</far>
                     </clip>
                 </camera>
-                    <plugin filename="gz-sim-depth-camera-system" name="gz::sim::systems::DepthCamera">                    <!-- <ros>
+                <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+                    <!-- <ros>
                         <namespace>$(arg robot_namespace)</namespace>
                     </ros> -->
                     <frame_name>kinect_camera_optical</frame_name>
@@ -60,4 +61,4 @@
         </gazebo>
 
 
-</robot>
+</robot> -->
