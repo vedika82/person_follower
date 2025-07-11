@@ -5,8 +5,8 @@
       <camera name='gzclient_camera'>
         <pose>-5.73 3.76 8.10 0 1.1316 -0.4398</pose>
       </camera>
-    </gui>
-      <gravity>0 0 -9.8</gravity>
+  </gui>
+    <gravity>0 0 -9.8</gravity>
     <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
     <atmosphere type="adiabatic" />
     <physics default="0" name="default_physics" type="ode">
@@ -14,7 +14,7 @@
       <real_time_factor>1</real_time_factor>
       <real_time_update_rate>1000</real_time_update_rate>
     </physics>
-        <plugin name='gz::sim::systems::Physics' filename='gz-sim-physics-system'/>
+    <plugin name='gz::sim::systems::Physics' filename='gz-sim-physics-system'/>
     <plugin name='gz::sim::systems::UserCommands' filename='gz-sim-user-commands-system'/>
     <plugin name='gz::sim::systems::SceneBroadcaster' filename='gz-sim-scene-broadcaster-system'/>
     <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
@@ -38,14 +38,14 @@
             </clip>
           </camera>
           <always_on>1</always_on>
-	  <update_rate>1</update_rate>
+	        <update_rate>1</update_rate>
           <visualize>true</visualize>
           <topic>sky_cam</topic>
         </sensor>
       </link>
     </model>
- <plugin name='gz::sim::systems::Contact' filename='gz-sim-contact-system'> 
-    </plugin>
+  <plugin name='gz::sim::systems::Contact' filename='gz-sim-contact-system'> 
+  </plugin>
     <include>
       <uri>model://sun</uri>
     </include>
@@ -63,58 +63,48 @@
         </geometry>
       </collision> -->
 
-    <actor name="actor">
-       <skin>
-        <filename>file://$(find person_follower_sim)/meshes/green_shirt.dae</filename>
-        <scale>1.0</scale>
-     </skin>
-     <pose>0 0 0 0 0 0</pose>
 
+   <actor name="actor1">
+      <pose>0 0 0 0 0 0</pose>
+      <skin>
+        <filename>model://actor_walk/meshes/green_shirt.dae</filename>
+        <scale>1.0</scale>
+      </skin>
       <animation name="walking">
-        <filename>file://$(find person_follower_sim)/meshes/walk.dae</filename>
+        <filename>model://actor_walk/meshes/walk.dae</filename>
+        <scale>1.000000</scale>
         <interpolate_x>true</interpolate_x>
       </animation>
-      <script>
-        <trajectory id="0" type="walking">
+</actor>
 
-          <waypoint>
-            <time>0</time>
-            <pose>-4 4 0 0 0 0</pose>
-          </waypoint>
-
-          <waypoint>
-            <time>5.0</time>
-            <pose>4 4 0 0 0 0</pose>
-          </waypoint>
-
-          <waypoint>
-            <time>10.0</time>
-            <pose>4 4 0 0 0 -1.57</pose>
-          </waypoint>
-
-          <waypoint>
-            <time>15.0</time>
-            <pose>4 -4 0 0 0 -1.57</pose>
-          </waypoint>
-
-          <waypoint>
-            <time>20.0</time>
-            <pose>4 -4 0 0 0 -3.14</pose>
-          </waypoint>
-          <waypoint>
-            <time>25.0</time>
-            <pose>-4 -4 0 0 0 -3.14</pose>
-          </waypoint>
-          <waypoint>
-            <time>30.0</time>
-            <pose>-4 -4 0 0 0 -4.71</pose>
-          </waypoint>
-          <waypoint>
-            <time>35.0</time>
-            <pose>-4 4 0 0 0 -4.71</pose>  
-          </waypoint>
-        </trajectory>
-      </script>
-     </actor>
+ <!-- <actor name="actor2">
+      <pose>0 0 0 0 0 0</pose>
+      <skin>
+        <filename>model://actor_walk/meshes/red_shirt.dae</filename>
+        <scale>1.0</scale>
+      </skin>
+      <animation name="walking">
+        <filename>model://actor_walk/meshes/walk.dae</filename>
+        <scale>2.000000</scale>
+        <interpolate_x>true</interpolate_x>
+      </animation>
+</actor> -->
+     <!-- <plugin name="gz::sim::systems::Actor" filename="gz-sim-actor-system"/>
+        <target_weight>1.15</target_weight>
+        <obstacle_weight>1.8</obstacle_weight>
+        <animation_factor>5.1</animation_factor>  -->
+        <!-- Usage: Modify the set of models that the vector field should
+             ignore when moving the actor -->
+        <!-- <ignore_obstacles>
+          <model>walk</model>
+          <model>ground_plane</model>
+        </ignore_obstacles>
+        <targets>
+          <target>0 -5 0</target>
+          <target>0 0 0</target>
+          <target>-3 -4 0</target>
+        </targets>
+      </plugin>
+      </actor> -->
   </world>
 </sdf>

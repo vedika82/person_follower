@@ -129,7 +129,7 @@
 		<visual>
 			<origin xyz="0 0 0" rpy="0 0 0" />
 		<geometry>
-		<mesh filename="package://$(find person_follower_sim)/meshes/kinect/d415.dae"/>
+		<mesh filename="file://$(find person_follower_sim)/meshes/kinect/d415.dae"/>
 		</geometry>
 		<material name="black"/>
 		</visual>

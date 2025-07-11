@@ -86,7 +86,7 @@
 
 
    <plugin name="gz::sim::systems::OdometryPublisher" filename="gz-sim-odometry-publisher-system">
-        <odom_topic>odom</odom_topic>
+        <odom_topic>/odom</odom_topic>
         <odom_frame>odom</odom_frame>
         <robot_base_frame>base_link</robot_base_frame>
         <publish_tf>true</publish_tf>
@@ -105,7 +105,7 @@
 
      <sensor name='gpu_lidar' type='gpu_lidar'>
     <pose relative_to='mr_robot/base_link/gpu_lidar'>0.001 0.006 0.1155 0 0 0</pose>
-    <topic>/laser/scan</topic>
+    <topic>/scan</topic>
     <update_rate>10</update_rate>
     <lidar>
         <scan>

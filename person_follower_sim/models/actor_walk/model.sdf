@@ -1,0 +1,69 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <actor name="actor">
+     <skin>
+        <filename>model://actor_walk/meshes/green_shirt.dae</filename>
+        <scale>1.0</scale>
+     </skin>
+     <pose>0 0 0 0 0 0</pose>
+
+	<link name="Hips">
+      <collision name="Hips_collision">
+        <pose>0 0 0 1 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.5 0.5 0.5</size>
+          </box>
+        </geometry>
+      </collision>
+
+     <animation name="walking">
+        <filename>model://actor_walk/meshes/walk.dae</filename>
+        <scale>1.000000</scale>
+        <interpolate_x>true</interpolate_x>
+     </animation>
+     <script>
+        <loop>true</loop>
+        <delay_start>0.000000</delay_start>
+        <auto_start>true</auto_start>
+        <trajectory id="0" type="walking">
+          <waypoint>
+            <time>0</time>
+            <pose>-4 4 0 0 0 0</pose>
+          </waypoint>
+
+          <waypoint>
+            <time>5.0</time>
+            <pose>4 4 0 0 0 0</pose>
+          </waypoint>
+
+          <waypoint>
+            <time>10.0</time>
+            <pose>4 4 0 0 0 -1.57</pose>
+          </waypoint>
+
+          <waypoint>
+            <time>15.0</time>
+            <pose>4 -4 0 0 0 -1.57</pose>
+          </waypoint>
+
+          <waypoint>
+            <time>20.0</time>
+            <pose>4 -4 0 0 0 -3.14</pose>
+          </waypoint>
+          <waypoint>
+            <time>25.0</time>
+            <pose>-4 -4 0 0 0 -3.14</pose>
+          </waypoint>
+          <waypoint>
+            <time>30.0</time>
+            <pose>-4 -4 0 0 0 -4.71</pose>
+          </waypoint>
+          <waypoint>
+            <time>35.0</time>
+            <pose>-4 4 0 0 0 -4.71</pose>  
+          </waypoint>
+        </trajectory>
+     </script>
+  </actor>
+</sdf>
