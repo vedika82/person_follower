@@ -56,10 +56,6 @@
         <static>false</static>
 </gazebo>
 
-<gazebo reference="imu_plugin">
-  <plugin filename="gz-sim-imu-Imu">
-  </plugin>
-</gazebo>
 
 <gazebo reference="imu_link">
   <sensor name="imu_sensor" type="imu">
@@ -71,7 +67,12 @@
 </gazebo>   
 
 
-<gazebo reference="differential_drive"> 
+<gazebo>
+      <plugin filename="gz-sim-imu-system"
+              name="gz::sim::systems::Imu">
+      </plugin>
+
+
   <!-- Differential Drive Plugin -->
     <plugin filename="gz-sim-diff-drive-system" name="gz::sim::systems::DiffDrive">
       <left_joint>left_motor_joint</left_joint>
@@ -81,29 +82,27 @@
       <odom_publish_frequency>1</odom_publish_frequency>
       <robot_base_frame>base_link</robot_base_frame>
       <topic>cmd_vel</topic>
-       <max_wheel_acceleration>5.0</max_wheel_acceleration>
     </plugin>
-</gazebo>
 
-<gazebo reference="odometery">
-        <!-- Odometry Publisher -->
-    <plugin name="gz::sim::systems::OdometryPublisher" filename="gz-sim-odometry-publisher-system">
-      <odom_topic>odom</odom_topic>
-      <odom_frame>odom</odom_frame>
-      <robot_base_frame>base_link</robot_base_frame>
-      <publish_tf>true</publish_tf>
-      <tf_topic>tf</tf_topic>
-    </plugin>
-</gazebo>
 
-<gazebo reference="joint_state_publisher">
+   <plugin name="gz::sim::systems::OdometryPublisher" filename="gz-sim-odometry-publisher-system">
+        <odom_topic>odom</odom_topic>
+        <odom_frame>odom</odom_frame>
+        <robot_base_frame>base_link</robot_base_frame>
+        <publish_tf>true</publish_tf>
+        <tf_topic>tf</tf_topic>
+        <odom_publish_frequency>30</odom_publish_frequency>
+        <xyz_offset>0 0 0</xyz_offset>
+        <rpy_offset>0 0 0</rpy_offset>
+      </plugin>
+
     <!-- Joint State Publisher -->
     <plugin filename="gz-sim-joint-state-publisher-system" name="gz::sim::systems::JointStatePublisher">
       <topic>joint_states</topic>
     </plugin>
-</gazebo>
 
-<gazebo reference="lidar_1">
+
+
      <sensor name='gpu_lidar' type='gpu_lidar'>
     <pose relative_to='mr_robot/base_link/gpu_lidar'>0.001 0.006 0.1155 0 0 0</pose>
     <topic>/laser/scan</topic>
@@ -134,9 +133,8 @@
     <always_on>true</always_on>
     <visualize>true</visualize>
   </sensor>
-</gazebo>
 
-<gazebo reference="camera_link">
+
   <plugin filename="gz-harmonic-camera-system" name="gz::harmonic::systems::CameraSystem"/>
     <sensor type="camera" name="camera">
       <visualize>true</visualize>
@@ -158,10 +156,10 @@
       <topic>camera/image_raw</topic>
       <gz_frame_id>camera_link_optical</gz_frame_id>
     </sensor>
-</gazebo>
 
 
-<gazebo reference="kinect_camera">
+
+
   <plugin filename="gz-sim-depth-camera-system" name="gz::sim::systems::DepthCamera"/>
    <sensor type="depth_camera" name="kinect_camera">
         <visualize>true</visualize>
@@ -184,6 +182,7 @@
         <topic>depth_camera</topic>
         <gz_frame_id>camera_link_optical</gz_frame_id>
       </sensor>
-</gazebo>  
+      
+      </gazebo>  
 
 </robot>
