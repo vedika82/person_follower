@@ -23,19 +23,10 @@ def generate_launch_description():
     pkg_ros_gz_sim = get_package_share_directory('ros_gz_sim')
     # bridge_config = os.path.join(pkg_follower_desc, 'config', 'bridge.yaml')
     rviz_config_file = os.path.join(pkg_follower_desc, 'config', 'display.rviz')
-    # # Include the gazebo.launch.py file
-    # gazebo=IncludeLaunchDescription(
-    #     PythonLaunchDescriptionSource([get_package_share_directory('gazebo_ros'), '/launch/gazebo.launch.py']),
-    #     launch_arguments={'pause': 'true',
-    #                       'world':actor_world1}.items()
-    # )
-      # parameter bridge node to bridge different gz and tos 2 topics
-    # ros_gz_bridge = Node(package="ros_gz_bridge", 
-    #             executable="parameter_bridge",
-    #             parameters = [
-    #                 {'config_file': bridge_config}],
-    #             # condition=IfCondition(with_bridge)
-    #             )
+    use_sim_time = LaunchConfiguration('use_sim_time')
+   
+
+
     arg_use_sim_time = DeclareLaunchArgument('use_sim_time',default_value='true',
 											description="Enable sim time from /clock")
     
@@ -65,15 +56,14 @@ def generate_launch_description():
     )
 
     #publishing robot_state into topic robot_description
-    robot_state=Node(package = 'robot_state_publisher',
+    robot_state=Node(
+                            package = 'robot_state_publisher',
                             executable = 'robot_state_publisher',
                             name='robot_state_publisher',
-                            parameters = [{'robot_description': ParameterValue(Command( \
-                                        ['xacro ', xacro_file,
-                                        # ' kinect_enabled:=', "true",
-                                        # ' lidar_enabled:=', lidar_enabled,
-                                        # ' camera_enabled:=', camera_enabled,
-                                        ]), value_type=str)}]
+                            parameters = [{'robot_description': ParameterValue(
+                                Command(['xacro ', xacro_file]),
+                                value_type=str)
+                            }]
                             )
     
     #spawn mr_robot using the topic "/mr_robot_description"
@@ -85,8 +75,8 @@ def generate_launch_description():
                     '-entity', 'mr_robot',
                     '-topic', '/robot_description',
                     "-allow_renaming", "true",
-                    '-x', '-6.0',  # Set the initial X position
-                    '-y', '6.0',  # Set the initial Y position
+                    '-x', '-0.159780',  # Set the initial X position
+                    '-y', '2.6638',  # Set the initial Y position
                     '-z', '0.0' ,  # Set the initial Z position
                     '-Y', '0.0',  # Set the initial Z position
  ],

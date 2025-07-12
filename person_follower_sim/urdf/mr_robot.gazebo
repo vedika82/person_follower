@@ -100,11 +100,11 @@
     <plugin filename="gz-sim-joint-state-publisher-system" name="gz::sim::systems::JointStatePublisher">
       <topic>joint_states</topic>
     </plugin>
+</gazebo>
 
-
-
+<gazebo reference="lidar_1">
      <sensor name='gpu_lidar' type='gpu_lidar'>
-    <pose relative_to='mr_robot/base_link/gpu_lidar'>0.001 0.006 0.1155 0 0 0</pose>
+    <pose relative_to='lidar1'>0 0 0 0 0 0</pose>
     <topic>/scan</topic>
     <update_rate>10</update_rate>
     <lidar>
@@ -128,15 +128,16 @@
             <resolution>0.01</resolution>
         </range>
     </lidar>
-    <topic>scan</topic>
+    <topic>/scan</topic>
     <gz_frame_id>laser_frame</gz_frame_id>
     <always_on>true</always_on>
     <visualize>true</visualize>
   </sensor>
+</gazebo>
 
-
+<gazebo reference="camera_link">
   <plugin filename="gz-harmonic-camera-system" name="gz::harmonic::systems::CameraSystem"/>
-    <sensor type="camera" name="camera">
+    <sensor type="camera" name="camera_link">
       <visualize>true</visualize>
       <always_on>true</always_on>
       <update_rate>10.0</update_rate>
@@ -156,12 +157,12 @@
       <topic>camera/image_raw</topic>
       <gz_frame_id>camera_link_optical</gz_frame_id>
     </sensor>
+</gazebo>
 
 
-
-
+<gazebo reference="kinetic_camera">
   <plugin filename="gz-sim-depth-camera-system" name="gz::sim::systems::DepthCamera"/>
-   <sensor type="depth_camera" name="kinect_camera">
+   <sensor type="depth" name="kinect_camera">
         <visualize>true</visualize>
         <always_on>true</always_on>
         <enable_metrics>true</enable_metrics>
@@ -179,10 +180,9 @@
             <far>300</far>
           </clip>
         </camera>
-        <topic>depth_camera</topic>
+        <topic>/camera/depth/points</topic>
         <gz_frame_id>camera_link_optical</gz_frame_id>
-      </sensor>
-      
-      </gazebo>  
+      </sensor> 
+</gazebo>  
 
 </robot>
